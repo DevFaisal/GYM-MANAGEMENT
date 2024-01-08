@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  @import url("https://fonts.googleapis.com/css2?family=Afacad:wght@400;500;600;700&family=Poppins:wght@400;500;600&display=swap");
+
+  :root {
+    background-image: url("../src/assets/bg.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    font-family: "Poppins", sans-serif;
+  }
+}

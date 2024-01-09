@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux'
 function Navbar() {
 
     const { isAuthenticated } = useSelector(state => state.auth)
+    const { isAdmin } = useSelector(state => state.auth)
     const navItems = [{
         name: 'Home',
         link: '/',
@@ -30,7 +31,7 @@ function Navbar() {
     {
         name: 'Dashboard',
         link: '/dashboard',
-        isAuth: isAuthenticated
+        isAuth: isAuthenticated && isAdmin
     },
     {
         name: 'Logout',

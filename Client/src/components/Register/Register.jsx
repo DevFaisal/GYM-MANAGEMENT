@@ -68,6 +68,10 @@ function Register() {
                             <label className='font-semibold'>Address</label>
                             <input type='text' className='py-2 outline-none px-3'  {...register("address", { required: "Address is required" })} />
                         </div>
+                        <div className='flex flex-col'>
+                            <label className='font-semibold'>Phone</label>
+                            <input type='text' className='py-2 outline-none px-3'  {...register("phone", { required: "Phone Number is required" })} />
+                        </div>
 
                         <div className='flex flex-col'>
                             <label className='font-semibold'>Email</label>

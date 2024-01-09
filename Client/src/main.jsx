@@ -7,11 +7,12 @@ import Home from './components/Home/Home.jsx'
 import Register from './components/Register/Register.jsx'
 import Login from './components/Login/Login.jsx'
 import Store from './Store/Store.js'
-import { Provider } from 'react-redux'
+import { Provider, useSelector } from 'react-redux'
 import Logout from './components/Logout/Logout.jsx'
 import ProtectedRoute from './ProtectedRoute/ProtectedRoute.jsx'
 import Dashboard from './components/Dashboard/Dashboard';
 import Packages from './components/Packages/Packages';
+
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -46,7 +47,7 @@ const router = createBrowserRouter(
       </Route>
       <Route path='/packages' element={
         <ProtectedRoute >
-          <Packages/>
+          <Packages />
         </ProtectedRoute >}>
       </Route>
 

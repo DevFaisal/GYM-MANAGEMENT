@@ -5,15 +5,15 @@ import bcrypt from "bcrypt";
 const router = Router();
 
 router.post("/register", async (req, res) => {
-    const { name, parentage, address, password, email } = req.body;
-    if (!name || !parentage || !address || !email || !password) {
+    const { name, parentage, address, phone, password, email } = req.body;
+    if (!name || !parentage || !address || !email || !password || !phone) {
         return res.status(400).json({ message: "Not all fields have been entered." });
     }
     const user = await User.findOne({ email })
     if (user) {
         return res.status(400).json({ message: "An account with this email already exists." });
     }
-    const newUser = await new User({ name, parentage, address, email, password });
+    const newUser = await new User({ name, parentage, address, phone, email, password });
 
     newUser.save()
         .then(() => res.json("User registered!"))
@@ -21,7 +21,7 @@ router.post("/register", async (req, res) => {
 });
 
 router.post("/login", async (req, res) => {
-    const { email, password } = req.body;
+    const { role, email, password } = req.body;
     if (!email || !password) {
         return res.status(400).json({ message: "Not all fields have been entered." });
     }
@@ -34,15 +34,21 @@ router.post("/login", async (req, res) => {
     if (!verifiedPassword) {
         return res.status(400).json({ message: "Invalid Password." });
     }
+    if (role === "admin" && !user.isAdmin) {
+        return res.status(400).json({ message: "Invalid Credentials." });
+    }
+    if (role === "member" && user.isAdmin) {
+        return res.status(400).json({ message: "Invalid Credentials." });
+    }
 
     return res.json({
-        user: {
-            id: user._id,
-            name: user.name,
-            parentage: user.parentage,
-            address: user.address,
-            email: user.email,
-        }
+        id: user._id,
+        name: user.name,
+        parentage: user.parentage,
+        address: user.address,
+        phone: user.phone,
+        isAdmin: user.isAdmin,
+        email: user.email,
     });
 
 });

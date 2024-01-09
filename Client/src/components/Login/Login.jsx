@@ -30,9 +30,16 @@ function Login() {
         await axios.post(`${import.meta.env.VITE_SERVER_URL}user/login`, data)
             .then(res => {
                 if (res.status === 200) {
-                    navigate('/dashboard')
-                    dispatch(authActions.login())
+
+                    dispatch(authActions.login({
+                        isAuthenticated: true,
+                        isAdmin: res.data.isAdmin
+                    }))
                     localStorage.setItem('token', res.data.token)
+                    if (!res.data.isAdmin) {
+                        return navigate('/')
+                    }
+                    navigate('/dashboard')
                 }
             })
             .catch(err => {
@@ -50,7 +57,7 @@ function Login() {
                     </div>
                     <form className='flex flex-col p-4 gap-4 text-sm' onSubmit={handleSubmit(login)}>
                         <select className='py-2 font-semibold  outline-none px-3' {...register("role")}>
-                            <option value="customer">Customer</option>
+                            <option value="member">Member</option>
                             <option value="admin">Admin</option>
                         </select>
 
@@ -73,8 +80,8 @@ function Login() {
                             <p className='text-red-700'>Forget Password?</p>
                         </div>
                     </form>
-                    <div className='flex flex-col w-full mt-2 bg-red-800'>
-                        <span className='text-white text-sm text-center italic'>{error.message}</span>
+                    <div className='flex flex-col'>
+                        <span className='text-white text-sm bg-red-700  text-center italic'>{error.message}</span>
                     </div>
                 </div>
             </div>
